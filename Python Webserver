@@ -1,0 +1,31 @@
+__author__ = 'Shravan'
+from twisted.web import server, resource
+from twisted.internet import reactor
+from pygeocoder import Geocoder
+
+
+lattitude = 12.941051
+longitude = 77.623308
+
+
+class Simple(resource.Resource):
+    isLeaf = True
+    def render_GET(self, request):
+        global lattitude,longitude
+        results = Geocoder.reverse_geocode(lattitude, longitude)
+        print "Got a request."
+        return str(results)
+
+    def render_POST(self, request):
+        val = request.__dict__['args']
+        transaction_id = val['transaction_id'][0]
+        global lattitude,longitude
+        lattitude = float(val['lat'][0])
+        longitude = float(val['lon'][0])
+        print transaction_id,lattitude,longitude
+        return 'Good to Go.!'
+
+
+site = server.Site(Simple())
+reactor.listenTCP(8080, site)
+reactor.run()
