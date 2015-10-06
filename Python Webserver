@@ -4,8 +4,8 @@ from twisted.internet import reactor
 from pygeocoder import Geocoder
 
 
-lattitude = 12.941051
-longitude = 77.623308
+#lattitude = 12.941051
+#longitude = 77.623308
 
 
 class Simple(resource.Resource):
